@@ -1,0 +1,15 @@
+{
+  "name": "crittr",
+  "version": "0.1.0",
+  "private": true,
+  "description": "CRITTR — six critters, a meadow, and other people. Web (Next.js), world server (Node + ws + SQLite) and contracts (Hardhat). Three independent packages; this file only delegates.",
+  "scripts": {
+    "install:all": "npm --prefix web install && npm --prefix server install && npm --prefix contracts install",
+    "dev:web": "npm --prefix web run dev",
+    "dev:server": "npm --prefix server run dev",
+    "build:web": "npm --prefix web run build",
+    "test:contracts": "npm --prefix contracts test",
+    "typecheck": "npm --prefix web run typecheck && npm --prefix server run typecheck",
+    "lint": "npm --prefix web run lint"
+  }
+}

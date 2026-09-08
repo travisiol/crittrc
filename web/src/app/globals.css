@@ -1,0 +1,452 @@
+@import "tailwindcss";
+
+/*
+ * CRITTR — a pixel meadow.
+ *
+ * One pixel typeface, 4px ink borders with a hard drop, no rounding
+ * anywhere, and two shades of cream for the ground. Where the harvest
+ * game it answers is autumn brown, this is spring: deep leaf green for
+ * the bars, poppy red for the one button that matters, sun yellow only
+ * where gold is counted.
+ */
+:root {
+  --paper: #f6f1e4;
+  --paper-deep: #ebe3cf;
+  --paper-warm: #fdf8ea;
+  --ink: #1e2a1c;
+  --ink-soft: #4a5a45;
+  --leaf: #4c8f3e;
+  --leaf-deep: #2f5f3a;
+  --leaf-night: #16240f;
+  --leaf-light: #9ad86a;
+  --poppy: #e0533c;
+  --poppy-deep: #8f2c1c;
+  --poppy-soft: #f7c3b7;
+  --sky: #5fb3d9;
+  --sun: #f5c542;
+  --sun-deep: #a67b12;
+  --pixel: 4px;
+
+  --hud-bg: rgba(24, 34, 22, 0.94);
+  --hud-border: #6f8a62;
+  --hud-text: #f3ecd8;
+  --hud-dim: #b9c3ad;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-deep: var(--paper-deep);
+  --color-paper-warm: var(--paper-warm);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-leaf: var(--leaf);
+  --color-leaf-deep: var(--leaf-deep);
+  --color-leaf-night: var(--leaf-night);
+  --color-leaf-light: var(--leaf-light);
+  --color-poppy: var(--poppy);
+  --color-poppy-deep: var(--poppy-deep);
+  --color-poppy-soft: var(--poppy-soft);
+  --color-sky: var(--sky);
+  --color-sun: var(--sun);
+  --color-sun-deep: var(--sun-deep);
+  --color-hud: var(--hud-bg);
+  --color-hud-border: var(--hud-border);
+  --color-hud-text: var(--hud-text);
+  --color-hud-dim: var(--hud-dim);
+
+  --font-sans: var(--font-pixel), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-pixel), ui-sans-serif, system-ui, sans-serif;
+  --font-reading: ui-sans-serif, system-ui, "Segoe UI", Roboto, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-pixel), ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: unset;
+  }
+
+  canvas,
+  img.pixel {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+  }
+
+  ::selection {
+    background: var(--poppy);
+    color: white;
+  }
+
+  a {
+    text-underline-offset: 3px;
+  }
+
+  kbd {
+    display: inline-block;
+    border: 2px solid var(--ink);
+    background: var(--paper-warm);
+    padding: 0 0.3em;
+    font-family: var(--font-pixel), monospace;
+    box-shadow: 2px 2px 0 0 var(--ink);
+  }
+}
+
+@layer components {
+  /* ── Surfaces ──────────────────────────────────────────────────── */
+
+  .pixel-panel {
+    background: var(--paper-warm);
+    border: var(--pixel) solid var(--ink);
+    box-shadow: var(--pixel) var(--pixel) 0 0 var(--ink);
+  }
+
+  .pixel-panel-deep {
+    background: var(--paper-deep);
+    border: var(--pixel) solid var(--ink);
+    box-shadow: var(--pixel) var(--pixel) 0 0 var(--ink);
+  }
+
+  /* A panel that reads as an object lying on the page: a second, offset
+     plate behind it in the accent colour. */
+  .pixel-card {
+    position: relative;
+    background: var(--paper-warm);
+    border: var(--pixel) solid var(--ink);
+    box-shadow:
+      6px 6px 0 0 var(--ink),
+      12px 12px 0 0 var(--leaf-deep);
+    transition:
+      transform 90ms steps(2),
+      box-shadow 90ms steps(2);
+  }
+  .pixel-card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow:
+      8px 8px 0 0 var(--ink),
+      16px 16px 0 0 var(--leaf-deep);
+  }
+
+  .pixel-inset {
+    background: var(--paper-deep);
+    border: var(--pixel) solid var(--ink);
+    box-shadow: inset 3px 3px 0 0 rgba(30, 42, 28, 0.18);
+  }
+
+  .hud {
+    background: var(--hud-bg);
+    border: 3px solid var(--hud-border);
+    color: var(--hud-text);
+    box-shadow: 3px 3px 0 0 rgba(0, 0, 0, 0.35);
+  }
+
+  /* ── Controls ──────────────────────────────────────────────────── */
+
+  .btn-primary,
+  .btn-secondary,
+  .btn-hud {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.4rem;
+    font-size: 1.25rem;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    border: var(--pixel) solid var(--ink);
+    box-shadow: var(--pixel) var(--pixel) 0 0 var(--ink);
+    cursor: pointer;
+    transition:
+      transform 60ms steps(2),
+      box-shadow 60ms steps(2);
+    user-select: none;
+  }
+
+  .btn-primary {
+    background: var(--poppy);
+    color: white;
+    box-shadow:
+      inset 0 -4px 0 0 var(--poppy-deep),
+      var(--pixel) var(--pixel) 0 0 var(--ink);
+  }
+
+  .btn-secondary {
+    background: var(--paper-warm);
+    color: var(--ink);
+    box-shadow:
+      inset 0 -4px 0 0 var(--paper-deep),
+      var(--pixel) var(--pixel) 0 0 var(--ink);
+  }
+
+  .btn-hud {
+    background: #2b3a28;
+    color: var(--hud-text);
+    border-color: var(--hud-border);
+    box-shadow:
+      inset 0 -3px 0 0 #1a2418,
+      3px 3px 0 0 rgba(0, 0, 0, 0.4);
+    border-width: 3px;
+    padding: 0.5rem 1rem;
+    font-size: 1.05rem;
+  }
+
+  /* The one button on the title screen. Bigger, and it breathes. */
+  .btn-enter {
+    padding: 1rem 2.4rem;
+    font-size: 1.8rem;
+  }
+
+  .btn-primary:hover:not(:disabled),
+  .btn-secondary:hover:not(:disabled),
+  .btn-hud:hover:not(:disabled) {
+    transform: translate(2px, 2px);
+    box-shadow:
+      inset 0 -4px 0 0 rgba(0, 0, 0, 0.18),
+      2px 2px 0 0 var(--ink);
+  }
+
+  .btn-primary:active:not(:disabled),
+  .btn-secondary:active:not(:disabled),
+  .btn-hud:active:not(:disabled) {
+    transform: translate(4px, 4px);
+    box-shadow: none;
+  }
+
+  .btn-primary:disabled,
+  .btn-secondary:disabled,
+  .btn-hud:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .pixel-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.15rem 0.55rem;
+    border: 3px solid var(--ink);
+    background: var(--paper-warm);
+    font-size: 0.95rem;
+    line-height: 1.1;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .pixel-input {
+    width: 100%;
+    background: white;
+    border: var(--pixel) solid var(--ink);
+    box-shadow: inset 3px 3px 0 0 var(--paper-deep);
+    padding: 0.6rem 0.8rem;
+    font-size: 1.25rem;
+    line-height: 1;
+    color: var(--ink);
+    outline: none;
+  }
+  .pixel-input:focus {
+    box-shadow:
+      inset 3px 3px 0 0 var(--paper-deep),
+      0 0 0 3px var(--sun);
+  }
+
+  .pixel-link {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+  }
+  .pixel-link:hover {
+    color: var(--poppy);
+  }
+
+  .reading {
+    font-family: var(--font-reading);
+    -webkit-font-smoothing: antialiased;
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+  .reading p + p {
+    margin-top: 0.9rem;
+  }
+
+  /* ── Grounds ───────────────────────────────────────────────────── */
+
+  .bar {
+    background-color: var(--leaf-deep);
+    background-image:
+      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 50%, transparent 50%),
+      linear-gradient(rgba(0, 0, 0, 0.08) 50%, transparent 50%);
+    background-size:
+      8px 8px,
+      8px 8px;
+  }
+
+  .ground {
+    background-color: var(--paper-deep);
+    background-image:
+      linear-gradient(rgba(30, 42, 28, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(30, 42, 28, 0.06) 1px, transparent 1px);
+    background-size:
+      48px 48px,
+      48px 48px;
+  }
+
+  /* A checkerboard of two creams, the size of a game tile. */
+  .checker {
+    background-color: var(--paper);
+    background-image:
+      linear-gradient(45deg, var(--paper-deep) 25%, transparent 25%, transparent 75%, var(--paper-deep) 75%),
+      linear-gradient(45deg, var(--paper-deep) 25%, transparent 25%, transparent 75%, var(--paper-deep) 75%);
+    background-size: 32px 32px;
+    background-position:
+      0 0,
+      16px 16px;
+  }
+
+  .dither-dark {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+    background-size: 6px 6px;
+  }
+
+  .pixel-hr {
+    height: var(--pixel);
+    background: var(--ink);
+  }
+
+  /* A row of ink teeth along an edge, so sections meet like torn paper. */
+  .teeth-bottom::after,
+  .teeth-top::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background-image: linear-gradient(90deg, var(--ink) 50%, transparent 50%);
+    background-size: 16px 8px;
+  }
+  .teeth-bottom::after {
+    bottom: -8px;
+  }
+  .teeth-top::before {
+    top: -8px;
+  }
+
+  .type-badge {
+    display: inline-block;
+    padding: 0.1rem 0.45rem;
+    border: 3px solid var(--ink);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink);
+  }
+
+  .eyebrow {
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--ink-soft);
+  }
+
+  .scroll-thin {
+    scrollbar-width: thin;
+    scrollbar-color: var(--hud-border) transparent;
+  }
+}
+
+/* ── Motion ──────────────────────────────────────────────────────── */
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+.bob {
+  animation: bob 0.9s steps(2) infinite;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+.blink {
+  animation: blink 1.1s steps(2) infinite;
+}
+
+@keyframes toast-in {
+  from {
+    transform: translateY(8px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.toast-in {
+  animation: toast-in 120ms steps(3) both;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 26s linear infinite;
+}
+
+@keyframes rise {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.rise {
+  animation: rise 320ms steps(6) both;
+}
+
+@keyframes nudge {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(5px);
+  }
+}
+.nudge {
+  animation: nudge 1.4s steps(3) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bob,
+  .blink,
+  .marquee-track,
+  .rise,
+  .nudge {
+    animation: none;
+  }
+}
